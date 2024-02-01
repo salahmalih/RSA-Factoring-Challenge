@@ -46,6 +46,7 @@ def main(filename):
             for line in file:
                 n = int(line.strip())
                 factors = factorize_rsa(n)
+                factors.reverse()
                 print(f"{n}={'*'.join(map(str, factors))}")
     except FileNotFoundError:
         print(f"File not found: {filename}")
