@@ -1,49 +1,47 @@
-#!/usr/bin/env bash
-# is a factors challenge
+#!/usr/bin/env python3
 
-check_ftr()
-{
-	if [ $# -ne 3 ];
-        then
-                args=("$@")
-                count=0
-                num2=1
-                for a in ${args[*]};
-                do
-                        if [ $count -gt 1 ];
-                        then
-                                num2=$(echo $a*$num2 | bc)
-                        fi
-                        count=$((count + 1))
-                done
-        else
-                num2=$3
-        fi
+import sys
 
-        num1=$2
-        num=$(echo "$1" | tr ':' '=')
+def factorize(number):
+    """
+    Factorize a number into two smaller numbers.
 
-        result=$(echo "if($num2 > $num1) 1 else 0" | bc)
-	        if ((result == 1)); then
-		        numcp=$num1
-		        num1=$num2
-		        num2=$numcp
-                fi
+    Args:
+    - number: The number to factorize.
 
-        echo "$num$num1*$num2"
-}
+    Returns:
+    - A tuple containing two factors of the input number.
+    """
+    # Your factorization logic here
+    # This is just a simple example, replace it with your actual implementation
+    for i in range(2, number):
+        if number % i == 0:
+            return (i, number // i)
+    return None
 
-if [ $# -ne 1 ]
-then
-        echo 'Usage: factors <file>'
-        exit 1
-else
+def main(filename):
+    """
+    Main function to read numbers from a file and factorize them.
 
-        while read i
-        do
+    Args:
+    - filename: The name of the file containing numbers to factorize.
+    """
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                number = int(line.strip())
+                factors = factorize(number)
+                if factors:
+                    print(f"{number}={factors[0]}*{factors[1]}")
+                else:
+                    print(f"Unable to factorize {number}")
+    except FileNotFoundError:
+        print(f"File not found: {filename}")
+    except ValueError:
+        print(f"Invalid data in file: {filename}")
 
-                result=$(factor "$i")
-                check_ftr $result
-
-        done < "$1"
-fi
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: factors <file>")
+        sys.exit(1)
+    main(sys.argv[1])
