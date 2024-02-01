@@ -32,7 +32,7 @@ def main(filename):
                 number = int(line.strip())
                 factors = factorize(number)
                 if factors:
-                    print(f"{number}={factors[0]}*{factors[1]}")
+                    print(f"{number}={factors[1]}*{factors[0]}")
                 else:
                     print(f"Unable to factorize {number}")
     except FileNotFoundError:
